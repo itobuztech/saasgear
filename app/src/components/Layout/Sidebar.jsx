@@ -18,7 +18,6 @@ const Wrapper = styled.div`
   ${mobileQuery} {
     position: fixed;
     left: -235px;
-    z-index: 0;
     background: #fff;
     z-index: 50;
     transition: all .4s ease-in-out;

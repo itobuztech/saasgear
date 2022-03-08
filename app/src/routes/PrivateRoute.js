@@ -15,6 +15,9 @@ const PrivateRoute = ({ render }) => {
   const dispatch = useDispatch();
   const [getProfile, { data: userProfile, loading: loadingUserProfile }] = useLazyQuery(
     getProfileQuery,
+    {
+      fetchPolicy: 'no-cache'
+    }
   );
   const { data } = useSelector((state) => state.user);
 

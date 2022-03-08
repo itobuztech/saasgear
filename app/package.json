@@ -49,7 +49,7 @@
     "lint:staged": "lint-staged",
     "lint:prod": "NODE_ENV=production npm run lint",
     "start": "craco start",
-    "build": "npm run lint:prod && npm run build:css && craco build",
+    "build": "craco build",
     "eject": "craco eject"
   },
   "eslintConfig": {

@@ -63,8 +63,8 @@ module.exports = {
     'max-len': 0,
     'newline-per-chained-call': 0,
     'no-confusing-arrow': 0,
-    'no-console': process.env.NODE_ENV === 'production' ? 1 : 0,
-    'no-unused-vars': process.env.NODE_ENV === 'production' ? 1 : 0,
+    'no-console': 0,
+    'no-unused-vars': 0,
     'no-param-reassign': 0,
     'no-use-before-define': 0,
     'prefer-template': 2,
@@ -81,6 +81,9 @@ module.exports = {
     'react/self-closing-comp': 0,
     'react/sort-comp': 0,
     'react/no-danger': 0,
+    'react/jsx-no-bind': 0,
+    'no-descending-specificity': 0,
+    'declaration-block-no-duplicate-properties': 0,
     'react/jsx-props-no-spreading': [
       2,
       {
