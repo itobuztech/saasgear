@@ -3,7 +3,7 @@ export const COOKIE_NAME = {
 };
 
 export function setAuthenticationCookie(res, token) {
-  res.cookie(COOKIE_NAME.TOKEN, `Bearer ${token}`, { maxAge: 60 * 60 * 24, httpOnly: true });
+  res.cookie(COOKIE_NAME.TOKEN, `Bearer ${token}`, { maxAge: 60 * 60 * 24, sameSite: 'none', secure: true });
 }
 
 export function clearCookie(res, key) {
