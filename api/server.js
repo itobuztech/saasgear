@@ -15,10 +15,11 @@ import RootSchema from './graphql/root.schema';
 import RootResolver from './graphql/root.resolver';
 import getUserLogined from './services/authentication/get-user-logined.service';
 import stripeHooks from './services/stripe/webhooks.servive';
-import insertCompany from './repository/company.repository';
+import { generatePassword } from './helpers/hashing.helper';
+import { addCompany, getAllCompany, getCompanyDetails } from './services/company/company.service';
 
 // Newest1 - Start
-import { getAllUsers, setUserLogTime } from './services/user/users.service';
+import { getAllUsers, setUserLogTime, insertUsers } from './services/user/users.service';
 // Newest1 - End
 
 dotenv.config();
@@ -124,13 +125,47 @@ const corsOptions = {
   app.post('/addCompanies', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
     try {
       const { name, email, url } = JSON.parse(req.body);
-      const insertCompanies = await insertCompany(name, email, url);
-      const result = await insertCompanies.json();
+      const insertCompanies = await addCompany(name, email, url);
+      res.json(insertCompanies);
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  });
+
+  app.get('/listCompanies', async (req, res) => {
+    try {
+      const listCompanies = await getAllCompany();
+      const result = listCompanies.map(({ ...restProps }) => restProps);
       res.send(result);
     } catch (error) {
       res.status(400).json(error);
     }
   });
+
+  app.post('/addUser', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
+    try {
+      const { name, email, password, position, company, avatarUrl, provider, providerId } = JSON.parse(req.body);
+      const getCompanyDetailByName = await getCompanyDetails(company);
+      const companyId = getCompanyDetailByName[0].id;
+      const passwordHashed = await generatePassword(password);
+      const data = {
+        name,
+        email,
+        password: passwordHashed,
+        position,
+        company,
+        avatar_url: avatarUrl,
+        provider,
+        provider_id: providerId,
+        company_id: companyId,
+      };
+      const insertUserDetails = await insertUsers(data);
+      res.send(insertUserDetails);
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  });
+
   app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
   });

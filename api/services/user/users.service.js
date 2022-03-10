@@ -1,6 +1,6 @@
 // Newest1 - Start
 
-import { findAllUsers, updateUserLogTime } from '~/repository/user.repository';
+import { findAllUsers, updateUserLogTime, addUserDetails } from '~/repository/user.repository';
 
 export async function getAllUsers() {
   const allUsers = await findAllUsers();
@@ -11,6 +11,11 @@ export async function getAllUsers() {
 export async function setUserLogTime(id, lastLoggedAt) {
   const updatedUser = await updateUserLogTime(id, lastLoggedAt);
   return updatedUser;
+}
+
+export async function insertUsers(data) {
+  const insertUserDetails = await addUserDetails(data);
+  return insertUserDetails;
 }
 
 // Newest1 - End

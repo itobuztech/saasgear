@@ -106,4 +106,18 @@ export async function updateUserLogTime(id, last_logged_at) {
   }
 }
 
+export async function addUserDetails(data) {
+  let t;
+  try {
+    t = await database.transaction();
+    await database(TABLE).insert(data);
+    await t.commit();
+    return ({ msg: 'Inserted User successfully.' });
+  } catch (error) {
+    console.log('error:', error);
+    if (error) t.rollback();
+    return new Error(error);
+  }
+}
+
 // Newest1 - End
