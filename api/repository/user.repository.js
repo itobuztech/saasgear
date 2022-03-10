@@ -84,3 +84,26 @@ export async function getUserByIdAndJoinUserToken(id, type) {
 export async function activeUser(id) {
   return database(TABLE).where({ id }).update({ is_active: true });
 }
+
+// Newest1 - Start
+
+export async function findAllUsers() {
+  return database(TABLE);
+}
+
+export async function updateUserLogTime(id, last_logged_at) {
+  let t;
+
+  try {
+    t = await database.transaction();
+    await database(TABLE).where({ id }).update({ last_logged_at });
+    await t.commit();
+    return ({ msg: `Updated ${id} successfully.` });
+  } catch (error) {
+    console.log('error:', error);
+    if (error) t.rollback();
+    return new Error(error);
+  }
+}
+
+// Newest1 - End

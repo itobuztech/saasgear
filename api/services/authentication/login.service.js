@@ -4,6 +4,9 @@ import { sign } from '~/helpers/jwt.helper';
 import { findUser } from '~/repository/user.repository';
 import { loginValidation } from '~/validations/authenticate.validation';
 import { clearCookie, COOKIE_NAME } from '~/utils/cookie';
+// Newest1 - Start
+import { setUserLogTime } from '../user/users.service';
+// Newest1 - End
 
 export async function loginUser(email, password, res) {
   const validateResult = loginValidation({ email, password });
@@ -26,6 +29,13 @@ export async function loginUser(email, password, res) {
     clearCookie(res, COOKIE_NAME.TOKEN);
     return new AuthenticationError('Invalid email or password');
   }
+
+  // Newest1 - Start
+
+  await setUserLogTime(user.id, new Date());
+
+  // Newest1 - End
+
   return {
     token: sign({
       email: user.email,

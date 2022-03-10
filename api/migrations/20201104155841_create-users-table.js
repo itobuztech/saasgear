@@ -17,6 +17,11 @@ export function up(knex) {
       .notNullable()
       .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
     t.dateTime('deleted_at');
+    // Newest1 - Start
+    t.dateTime('last_logged_at')
+      .notNullable()
+      .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+    // Newest1 - End
     t.unique('email');
   });
 }

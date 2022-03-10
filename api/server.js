@@ -16,6 +16,10 @@ import RootResolver from './graphql/root.resolver';
 import getUserLogined from './services/authentication/get-user-logined.service';
 import stripeHooks from './services/stripe/webhooks.servive';
 
+// Newest1 - Start
+import { getAllUsers, setUserLogTime } from './services/user/users.service';
+// Newest1 - End
+
 dotenv.config();
 
 const app = express();
@@ -37,6 +41,29 @@ const corsOptions = {
     res.send('Hello World!');
   });
   app.post('/stripe-hooks', bodyParser.raw({ type: 'application/json' }), stripeHooks);
+
+  // Newest1 - Start
+
+  app.get('/v1.0/all-users', async (req, res) => {
+    const allUsers = await getAllUsers();
+    res.send(allUsers);
+  });
+
+  // For testing
+  app.put('/v1.0/users/:userId/update-log-time', async (req, res) => {
+    const userId = req.params && req.params.userId;
+    const lastLoggedAt = new Date();
+
+    if (!userId) {
+      res.send({ msg: 'Please provide a proper id.' });
+    }
+
+    const updatedUser = await setUserLogTime(userId, lastLoggedAt);
+    console.log('updatedUser:', updatedUser);
+    res.send(updatedUser);
+  });
+
+  // Newest1 - End
 
   const serverGraph = new Apollo.ApolloServer({
     schema: Apollo.makeExecutableSchema({
