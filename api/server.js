@@ -15,6 +15,7 @@ import RootSchema from './graphql/root.schema';
 import RootResolver from './graphql/root.resolver';
 import getUserLogined from './services/authentication/get-user-logined.service';
 import stripeHooks from './services/stripe/webhooks.servive';
+import insertCompany from './repository/company.repository';
 
 // Newest1 - Start
 import { getAllUsers, setUserLogTime } from './services/user/users.service';
@@ -119,6 +120,17 @@ const corsOptions = {
 
   serverGraph.applyMiddleware({ app, cors: corsOptions });
   Sentry.init({ dsn: process.env.SENTRY_DSN });
+
+  app.post('/addCompanies', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
+    try {
+      const { name, email, url } = JSON.parse(req.body);
+      const insertCompanies = await insertCompany(name, email, url);
+      const result = await insertCompanies.json();
+      res.send(result);
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  });
   app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
   });
