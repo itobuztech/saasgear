@@ -1,4 +1,4 @@
-exports.up = function (knex) {
+export function up(knex) {
   return knex.schema.createTable('companies', (t) => {
     t.increments('id');
     t.string('name').notNullable();
@@ -12,8 +12,8 @@ exports.up = function (knex) {
       .defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
     t.dateTime('deleted_at');
   });
-};
+}
 
-exports.down = function (knex) {
+export function down(knex) {
   return knex.schema.dropTable('companies');
-};
+}
