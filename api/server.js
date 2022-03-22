@@ -46,13 +46,13 @@ const corsOptions = {
 
   // Newest1 - Start
 
-  app.get('/v1.0/all-users', async (req, res) => {
+  app.get('/all-users', async (req, res) => {
     const allUsers = await getAllUsers();
     res.send(allUsers);
   });
 
   // For testing
-  app.put('/v1.0/users/:userId/update-log-time', async (req, res) => {
+  app.put('/users/:userId/update-log-time', async (req, res) => {
     const userId = req.params && req.params.userId;
     const lastLoggedAt = new Date();
 
