@@ -22,8 +22,10 @@ export function up(knex) {
     //   .notNullable()
     //   .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
     t.dateTime('last_logged_at');
-    // Newest1 - End
+    t.integer('company_id').unsigned();
     t.unique('email');
+    t.foreign('company_id').references('id').inTable('companies');
+    // Newest1 - End
   });
 }
 
