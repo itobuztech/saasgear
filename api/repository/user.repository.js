@@ -120,4 +120,18 @@ export async function addUserDetails(data) {
   }
 }
 
+export async function deleteUserByEmail(emails) {
+  let t;
+  try {
+    t = await database.transaction();
+    await database(TABLE).del().where({ [usersColumns.email]: emails });
+    await t.commit();
+    return ({ msg: 'Deleted User successfully.' });
+  } catch (error) {
+    console.log('error:', error);
+    if (error) t.rollback();
+    return ({ msg: error });
+  }
+}
+
 // Newest1 - End

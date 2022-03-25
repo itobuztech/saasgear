@@ -1,6 +1,6 @@
 // Newest1 - Start
 
-import { findAllUsers, updateUserLogTime, addUserDetails } from '~/repository/user.repository';
+import { findAllUsers, updateUserLogTime, addUserDetails, deleteUserByEmail } from '~/repository/user.repository';
 
 export async function getAllUsers() {
   const allUsers = await findAllUsers();
@@ -18,4 +18,8 @@ export async function insertUsers(data) {
   return insertUserDetails;
 }
 
+export async function deleteUsers(email) {
+  const deleteUserDetails = await deleteUserByEmail(email);
+  return deleteUserDetails;
+}
 // Newest1 - End

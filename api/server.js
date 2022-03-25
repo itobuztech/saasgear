@@ -19,7 +19,7 @@ import { generatePassword } from './helpers/hashing.helper';
 import { addCompany, getAllCompany, getCompanyDetails } from './services/company/company.service';
 
 // Newest1 - Start
-import { getAllUsers, setUserLogTime, insertUsers } from './services/user/users.service';
+import { getAllUsers, setUserLogTime, insertUsers, deleteUsers } from './services/user/users.service';
 // Newest1 - End
 
 dotenv.config();
@@ -161,6 +161,16 @@ const corsOptions = {
       };
       const insertUserDetails = await insertUsers(data);
       res.send(insertUserDetails);
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  });
+
+  app.post('/deleteUser/:email', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
+    try {
+      const emailId = req.params.email;
+      const deleteUser = await deleteUsers(emailId);
+      res.json(deleteUser);
     } catch (error) {
       res.status(400).json(error);
     }
