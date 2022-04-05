@@ -48,7 +48,11 @@ const corsOptions = {
 
   app.get('/all-users', async (req, res) => {
     const allUsers = await getAllUsers();
-    res.send(allUsers);
+    const UserDetails = {
+      status: 200,
+      data: allUsers
+    };
+    res.send(UserDetails);
   });
 
   // For testing
